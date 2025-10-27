@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:orientation="horizontal"
+    android:background="@drawable/linear_action_bar_border"
+    android:paddingHorizontal="8dp"
+    tools:context=".ActionBarFragment">
+
+    <!-- Nút Back -->
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/back" />
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="GGChat"
+        android:textColor="@android:color/holo_orange_dark"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- Nút Setting -->
+    <ImageButton
+        android:id="@+id/settingButton"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/setting" />
+</LinearLayout>

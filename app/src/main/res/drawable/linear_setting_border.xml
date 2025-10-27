@@ -1,0 +1,16 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Nền -->
+    <item>
+        <shape>
+            <solid android:color="@color/light_blue"/>
+            <!-- bo 2 góc dưới -->
+            <corners
+                android:bottomLeftRadius="40dp"
+                android:bottomRightRadius="40dp" />
+        </shape>
+    </item>
+
+
+    <!-- Viền cũ -->
+    <item android:drawable="@drawable/linear_action_bar_border" />
+</layer-list>
