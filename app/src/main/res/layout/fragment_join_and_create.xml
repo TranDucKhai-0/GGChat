@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".JoinAndCreateFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingTop="100dp">     <!-- chỉnh vị trí dọc tùy ý -->
+
+        <!--hiện IP LAN-->
+        <FrameLayout
+            android:id="@+id/ipFrame"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center">
+
+            <!-- Ảnh nền -->
+            <ImageView
+                android:id="@+id/ipBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/khung_xanh" />
+
+            <!-- Chữ đè lên -->
+            <TextView
+                android:id="@+id/textIPLAN"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="38sp"/>
+        </FrameLayout>
+
+        <!--Tạo phòng-->
+        <FrameLayout
+            android:id="@+id/ipFrame1"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center">
+
+            <!-- Ảnh nền -->
+            <ImageView
+                android:id="@+id/ipBackground1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/khung_cam" />
+
+            <!-- Chữ đè lên -->
+            <TextView
+                android:id="@+id/ipText1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Tạo Phòng"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="28sp"/>
+        </FrameLayout>
+
+        <!--Tạo phòng-->
+        <FrameLayout
+            android:id="@+id/ipFrame2"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center">
+
+            <!-- Ảnh nền -->
+            <ImageView
+                android:id="@+id/ipBackground2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/khung_cam" />
+
+            <!-- Chữ đè lên -->
+            <TextView
+                android:id="@+id/ipText2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Tham Gia"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="28sp"/>
+        </FrameLayout>
+
+    </LinearLayout>
+</FrameLayout>

@@ -2,25 +2,43 @@ package com.example.ggchat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.FrameLayout
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
+
+
 
 class MainActivity : AppCompatActivity() {
 
     //-----------------Tương tác của Action Bar-------------------
     private lateinit var actionBarFragment: ActionBarFragment
+    private lateinit var profileFragment: ProfileFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //View
         setContentView(R.layout.activity_main)
 
         // Nạp ActionBarFragment
         actionBarFragment = ActionBarFragment()
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_action_bar, actionBarFragment)
             .commit()
 
-        // Hiển thị HomeFragment mặc định
-        // replaceFragment(Profile())
+        // --- Hiển thị ProfileFragment mặc định ---
+        if (savedInstanceState == null) {
+            profileFragment = ProfileFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, profileFragment)
+                .commit() // ❌ KHÔNG addToBackStack
+        }
+
+        // --- Lấy IP LAN của máy-----
+        val ip = getLocalIpAddress()
+        UserData.saveUserIP(this, ip)
     }
 
     fun replaceFragment(fragment: Fragment) {
@@ -32,7 +50,14 @@ class MainActivity : AppCompatActivity() {
 
     // gọi từ ActionBar khi bấm setting
     fun openSettingFragment() {
-        replaceFragment(SettingFragment())
+        var setting_Fragment = SettingFragment()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_overlay, setting_Fragment)
+            .addToBackStack(null)
+            .commit()
+
+        // hiện vùng overlay lên
+        findViewById<FrameLayout>(R.id.fragment_overlay).visibility = View.VISIBLE
     }
 
     // Dùng khi muốn đổi tiêu đề action bar sang chat mode
@@ -43,5 +68,28 @@ class MainActivity : AppCompatActivity() {
     fun showDefaultBar() {
         actionBarFragment.showDefault()
     }
+
+    // Hàm lấy IP LAN
+    fun getLocalIpAddress(): String {
+        try {
+            val interfaces = java.net.NetworkInterface.getNetworkInterfaces()
+            for (intf in interfaces) {
+                val name = intf.name
+                val addrs = intf.inetAddresses
+                for (addr in addrs) {
+                    android.util.Log.d("DEBUG_IP", "Interface: $name  ->  ${addr.hostAddress}")
+                    if (!addr.isLoopbackAddress && addr is java.net.Inet4Address) {
+                        return addr.hostAddress ?: "NULL"
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return "NULL"
+    }
+
+
+
     //----------------------------------------------------------------------
 }

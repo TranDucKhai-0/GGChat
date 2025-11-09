@@ -26,15 +26,15 @@ class ActionBarFragment : Fragment() {
         // Mặc định: hiện tiêu đề
         showDefault()
 
+        // xử lý sự kiện click back
+        backButton.setOnClickListener {
+            (activity as? MainActivity)?.onBackPressedDispatcher?.onBackPressed()
+        }
+
         // xử lý sự kiện click setting (mở fragment Setting)
         settingButton.setOnClickListener {
             // Gọi sang MainActivity để thay fragment
             (activity as? MainActivity)?.openSettingFragment()
-        }
-
-        // xử lý sự kiện click back
-        backButton.setOnClickListener {
-            (activity as? MainActivity)?.onBackPressedDispatcher?.onBackPressed()
         }
 
         return view
