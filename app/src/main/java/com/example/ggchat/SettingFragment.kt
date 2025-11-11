@@ -24,8 +24,6 @@ class SettingFragment : Fragment() {
         val backButton = view.findViewById<ImageButton>(R.id.backButton)
 
 
-
-
         // Cập nhật chữ lúc khởi tạo
         switch1.text = if (switch1.isChecked) "Light" else "Dark"
         switch2.text = if (switch2.isChecked) "ON" else "OFF"

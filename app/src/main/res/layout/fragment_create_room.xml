@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".JoinAndCreateFragment">
+    tools:context=".CreateRoomFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,12 +12,12 @@
         android:gravity="center_horizontal"
         android:paddingTop="100dp">     <!-- chỉnh vị trí dọc tùy ý -->
 
-        <!--hiện IP LAN-->
+        <!--Ô text Tạo Phòng-->
         <FrameLayout
-            android:id="@+id/ipFrame"
+            android:id="@+id/frame1"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="30dp"
             android:layout_gravity="center">
 
             <!-- Ảnh nền -->
@@ -32,25 +31,23 @@
 
             <!-- Chữ đè lên -->
             <TextView
-                android:id="@+id/textIPLAN"
+                android:id="@+id/textTaoPhong"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                android:textSize="38sp"/>
+                android:textSize="48sp"
+                android:text="Tạo Phòng"/>
         </FrameLayout>
 
-        <!--Tạo phòng-->
+        <!--Tạo tên phòng-->
         <FrameLayout
-            android:id="@+id/buttonCreateRoom"
+            android:id="@+id/inputNameRoom"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:layout_gravity="center"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackgroundBorderless">
+            android:layout_gravity="center">
 
             <!-- Ảnh nền -->
             <ImageView
@@ -61,48 +58,58 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/khung_cam" />
 
-            <!-- Chữ đè lên -->
-            <TextView
-                android:id="@+id/ipText1"
+            <!-- Ô nhập chữ -->
+            <EditText
+                android:id="@+id/editRoomName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 android:gravity="center"
-                android:text="Tạo Phòng"
+                android:hint="Nhập tên phòng..."
+                android:inputType="textCapWords"
+                android:singleLine="true"
+                android:maxLength="20"
                 android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:textSize="28sp"/>
+                android:textSize="20sp" />
         </FrameLayout>
 
-        <!--Tham gia phòng-->
         <FrameLayout
-            android:id="@+id/buttonJoinRoom"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_gravity="center"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?attr/selectableItemBackgroundBorderless">
-
-            <!-- Ảnh nền -->
-            <ImageView
-                android:id="@+id/ipBackground2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/khung_cam" />
-
-            <!-- Chữ đè lên -->
-            <TextView
-                android:id="@+id/ipText2"
+            android:id="@+id/buttonNext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Tham Gia"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:textSize="28sp"/>
+                android:orientation="vertical">
+
+                <!-- Rỗng -->
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="320dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <!-- Rỗng -->
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <ImageButton
+                        android:id="@+id/nextToRoomChat"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/next"
+                        android:background="@android:color/transparent"
+                        android:scaleType="centerInside"/>
+                </LinearLayout>
+
+            </LinearLayout>
         </FrameLayout>
 
     </LinearLayout>

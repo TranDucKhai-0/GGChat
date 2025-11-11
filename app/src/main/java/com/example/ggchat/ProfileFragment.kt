@@ -98,8 +98,7 @@ class ProfileFragment : Fragment() {
 
         // gọi về Activity chính để chuyển fragment
         buttonNext.setOnClickListener {
-            val newFragment = JoinAndCreateFragment() // fragment mới sẽ chuyển tới
-            (activity as? MainActivity)?.replaceFragment(newFragment)
+            (activity as? MainActivity)?.replaceFragment(JoinAndCreateFragment())
         }
 
         return view
