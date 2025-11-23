@@ -49,10 +49,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     // gọi từ ActionBar khi bấm setting
-    fun openSettingFragment() {
-        var setting_Fragment = SettingFragment()
+    fun openOverlayFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_overlay, setting_Fragment)
+            .add(R.id.fragment_overlay, fragment)
             .addToBackStack(null)
             .commit()
 

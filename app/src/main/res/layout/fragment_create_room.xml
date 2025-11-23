@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:paddingTop="100dp">     <!-- chỉnh vị trí dọc tùy ý -->
+        android:paddingTop="100dp">
 
         <!--Ô text Tạo Phòng-->
         <FrameLayout

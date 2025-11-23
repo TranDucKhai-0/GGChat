@@ -5,10 +5,24 @@
     android:layout_height="match_parent"
     tools:context=".RoomChatFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+        <!-- Fragment danh sách tin nhắn -->
+        <FrameLayout
+            android:id="@+id/fragment_message_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!-- Fragment input -->
+        <FrameLayout
+            android:background="@color/light_blue"
+            android:id="@+id/fragment_input"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"/>
+    </LinearLayout>
 
 </FrameLayout>

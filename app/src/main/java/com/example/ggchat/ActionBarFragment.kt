@@ -34,7 +34,7 @@ class ActionBarFragment : Fragment() {
         // xử lý sự kiện click setting (mở fragment Setting)
         settingButton.setOnClickListener {
             // Gọi sang MainActivity để thay fragment
-            (activity as? MainActivity)?.openSettingFragment()
+            (activity as? MainActivity)?.openOverlayFragment(SettingFragment())
         }
 
         return view

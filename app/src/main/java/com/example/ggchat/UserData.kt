@@ -22,7 +22,6 @@ object UserData {
 
 
 
-
     // Lưu tên
     fun saveUserName(context: Context, name: String) {
         val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)

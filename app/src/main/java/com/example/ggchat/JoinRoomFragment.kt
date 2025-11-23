@@ -49,7 +49,7 @@ class JoinRoomFragment : Fragment() {
 
         val frame = roomView.findViewById<FrameLayout>(R.id.buttonJoinRoom)
         frame.setOnClickListener {
-            Toast.makeText(requireContext(), "Đang kết nối tới $name ($ip:$port)...", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(requireContext(), "Đang kết nối tới $name ($ip:$port)...", Toast.LENGTH_SHORT).show()
 
             // TODO: Gửi request join tới host (TCP/UDP)
         }
