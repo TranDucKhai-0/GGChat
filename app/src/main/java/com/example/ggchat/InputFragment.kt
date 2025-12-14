@@ -36,11 +36,12 @@ class InputFragment : Fragment() {
             (activity as? MainActivity)?.openOverlayFragment(ListFriendFragment())
         }
 
-        // gọi về RoomChatFragment
+        // gọi về RoomChatFragment để gửi mess đi
         btnSend.setOnClickListener {
             val text = edt.text.toString().trim()
             if (text.isNotEmpty()) {
-                onSendMessage?.invoke(text)
+                val finalText = "$text.Gâu"
+                onSendMessage?.invoke(finalText)
                 edt.setText("")
             }
         }

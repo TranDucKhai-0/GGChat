@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             profileFragment = ProfileFragment()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, profileFragment)
-                .commit() // ❌ KHÔNG addToBackStack
+                .commit() // KHÔNG addToBackStack
         }
 
         // --- Lấy IP LAN của máy-----
@@ -86,6 +86,10 @@ class MainActivity : AppCompatActivity() {
             e.printStackTrace()
         }
         return "NULL"
+    }
+
+    fun reNameActionBar(chatName: String) {
+        actionBarFragment.showChatBar(chatName)
     }
 
 

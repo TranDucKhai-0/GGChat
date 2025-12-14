@@ -14,7 +14,11 @@ class MessageListFragment : Fragment() {
     private lateinit var adapter: MessageAdapter
     private val messages = mutableListOf<Message>()
 
-    private val myId = UserData.getUserIP(requireContext())
+    private lateinit var lm: LinearLayoutManager
+    private var pendingNewCount = 0 // nếu muốn badge tin mới
+
+
+    private lateinit var myId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,17 +30,47 @@ class MessageListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        myId = UserData.getUserIP(requireContext())
         rv = view.findViewById(R.id.rvMessages)
-        adapter = MessageAdapter(messages, myId)
 
+        adapter = MessageAdapter(messages, myId)
         rv.adapter = adapter
-        rv.layoutManager = LinearLayoutManager(requireContext())
+
+        lm = LinearLayoutManager(requireContext()).apply {
+            stackFromEnd = true
+        }
+        rv.layoutManager = lm
+
+        rv.itemAnimator = null // đỡ giật khi chat nhanh
+        rv.setHasFixedSize(true)
     }
 
-    // Hàm RoomChatFragment gọi để thêm tin nhắn
+
+
+    // Add tin nhắn vào đoạn chat
     fun addMessage(msg: Message) {
+        //  check user có đang ở gần đáy không (trước khi insert)
+        val shouldAutoScroll = isNearBottom()
+
+        //  add + notify
         messages.add(msg)
         adapter.notifyItemInserted(messages.size - 1)
-        rv.scrollToPosition(messages.size - 1)
+
+        //  quyết định scroll
+        if (shouldAutoScroll) {
+            rv.scrollToPosition(messages.size - 1)
+            pendingNewCount = 0
+        } else {
+            pendingNewCount += 1
+        }
     }
+
+    private fun isNearBottom(threshold: Int = 2): Boolean {
+        if (!::lm.isInitialized || adapter.itemCount == 0) return true
+        val lastVisible = lm.findLastVisibleItemPosition()
+        val lastIndex = adapter.itemCount - 1
+        return lastVisible >= (lastIndex - threshold)
+    }
+
 }
+

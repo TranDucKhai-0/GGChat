@@ -11,7 +11,23 @@ class RoomChatFragment : Fragment() {
     lateinit var listFrag: MessageListFragment
     lateinit var inputFrag: InputFragment
 
+    companion object {
+        private const val ARG_ROOM_NAME = "ARG_ROOM_NAME"
+        fun newInstance(roomName: String) = RoomChatFragment().apply {
+            arguments = Bundle().apply { putString(ARG_ROOM_NAME, roomName) }
+        }
+    }
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_room_chat, container, false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         listFrag = MessageListFragment()
         inputFrag = InputFragment()
@@ -21,17 +37,26 @@ class RoomChatFragment : Fragment() {
             .replace(R.id.fragment_input, inputFrag)
             .commit()
 
-        // ⚡ Nhận tin nhắn từ InputFragment
         inputFrag.setOnSendMessageListener { text ->
             val msg = Message(
                 senderId = UserData.getUserIP(requireContext()),
                 text = text,
                 time = System.currentTimeMillis()
             )
-
-            // ⚡ Thêm tin nhắn vào danh sách
             listFrag.addMessage(msg)
         }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val roomName = arguments?.getString(ARG_ROOM_NAME).orEmpty().ifBlank { "Room Chat" }
+        (activity as? MainActivity)?.showChatBar(roomName)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as? MainActivity)?.showDefaultBar()
     }
 
 

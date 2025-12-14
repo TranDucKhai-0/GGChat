@@ -7,47 +7,58 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class MessageAdapter(
-    private val list: MutableList<Message>,
+    private val messages: MutableList<Message>,
     private val myId: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val TYPE_ME = 1
-    private val TYPE_OTHER = 2
+    companion object {
+        private const val TYPE_ME = 1
+        private const val TYPE_OTHER = 2
+    }
 
     override fun getItemViewType(position: Int): Int {
-        return if (list[position].senderId == myId) TYPE_ME else TYPE_OTHER
+        val msg = messages[position]
+        return if (msg.senderId == myId) TYPE_ME else TYPE_OTHER
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
         return if (viewType == TYPE_ME) {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_message_me, parent, false)
-            MeHolder(view)
+            val v = inflater.inflate(R.layout.item_message_me, parent, false)
+            MeVH(v)
         } else {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_message_other, parent, false)
-            OtherHolder(view)
+            val v = inflater.inflate(R.layout.item_message_other, parent, false)
+            OtherVH(v)
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val message = list[position]
-        if (holder is MeHolder) holder.textView.text = message.text
-        if (holder is OtherHolder) holder.textView.text = message.text
+        val msg = messages[position]
+        when (holder) {
+            is MeVH -> holder.bind(msg)
+            is OtherVH -> holder.bind(msg)
+        }
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = messages.size
 
+    // (UI helper) gọi khi muốn add từ ngoài adapter thay vì add ở Fragment
     fun addMessage(msg: Message) {
-        list.add(msg)
-        notifyItemInserted(list.size - 1)
+        messages.add(msg)
+        notifyItemInserted(messages.size - 1)
     }
 
-    class MeHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.tvMessage)
+    class MeVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val tvMessage: TextView = itemView.findViewById(R.id.tvMessage)
+        fun bind(m: Message) {
+            tvMessage.text = m.text
+        }
     }
 
-    class OtherHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.tvMessage)
+    class OtherVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val tvMessage: TextView = itemView.findViewById(R.id.tvMessage)
+        fun bind(m: Message) {
+            tvMessage.text = m.text
+        }
     }
 }

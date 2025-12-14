@@ -39,23 +39,24 @@ class CreateRoomFragment : Fragment() {
         // Button next
         val nextButton = view.findViewById<ImageButton>(R.id.nextToRoomChat)
         nextButton.setOnClickListener {
-            val roomName = UserData.getMyRoomName(requireContext()) // get RoomName
-            // Kiểm tra xem tên phòng đã có chưa, nếu chưa thì bắt người dùng nhập
+            // lấy trực tiếp từ editName
+            val roomName = editName.text.toString().trim()
+
             if (roomName.isEmpty()) {
                 Toast.makeText(requireContext(), "Vui lòng nhập tên phòng!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Lấy port khả dụng ngẫu nhiên
-            val roomPort = getAvailablePort()
+            // lưu tên phòng vào UserData
+            UserData.saveMyRoomName(requireContext(), roomName)
 
-            // Lưu vào UserData
+            val roomPort = getAvailablePort()
             UserData.saveMyRoomPort(requireContext(), roomPort)
 
-            // TODO: Gọi phát UDP broadcast (broadcast lên port 9999) để thông báo phòng LAN, ông có thể tùy chỉnh việc gọi ở file riêng cũng được
-
-            (activity as? MainActivity)?.replaceFragment(RoomChatFragment())
+            // truyền roomName và gọi RoomChat
+            (activity as? MainActivity)?.replaceFragment(RoomChatFragment.newInstance(roomName))
         }
+
 
         return view
     }

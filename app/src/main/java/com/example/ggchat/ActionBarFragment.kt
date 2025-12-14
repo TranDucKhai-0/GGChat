@@ -51,4 +51,5 @@ class ActionBarFragment : Fragment() {
     fun showChatBar(chatName: String) {
         tvTitle.text = chatName
     }
+
 }
