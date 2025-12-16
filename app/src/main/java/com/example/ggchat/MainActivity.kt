@@ -39,6 +39,28 @@ class MainActivity : AppCompatActivity() {
         // --- Lấy IP LAN của máy-----
         val ip = getLocalIpAddress()
         UserData.saveUserIP(this, ip)
+
+        // --- TÍCH HỢP LOGIC CHAT ---
+        // 1. Khi mở app -> Join luôn
+        ChatService.joinChat("Đức Mobile")
+
+        // 2. Lắng nghe tin nhắn đến
+        ChatService.listenForMessages { msg: ChatMessage -> // <-- Sửa ở đây
+            // Code hiển thị tin nhắn lên màn hình (RecyclerView hoặc TextView)
+            // Ví dụ test:
+            Log.d("TIN_NHAN_MOI", "TỪ ${msg.userName}: ${msg.content}")
+        }
+
+        // 3. Gửi tin nhắn
+        // Giao diện nút gửi và ô nhập liệu của bạn có thể nằm trong một Fragment khác.
+        // Hãy đặt đoạn code tương tự như sau vào trong Fragment đó, tại sự kiện click của nút gửi.
+        /*
+        buttonSend.setOnClickListener {
+            val text = editText.text.toString()
+            ChatService.sendMessage(text)
+            editText.text.clear()
+        }
+        */
     }
 
     fun replaceFragment(fragment: Fragment) {

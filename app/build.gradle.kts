@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -36,7 +38,11 @@ android {
 }
 
 dependencies {
+    // THÊM BOM (Quản lý version tự động)
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
 
+    // THÊM REALTIME DATABASE
+    implementation("com.google.firebase:firebase-database")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

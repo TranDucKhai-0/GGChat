@@ -1,6 +1,7 @@
 package com.example.ggchat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,9 @@ class MessageListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        myId = UserData.getUserIP(requireContext())
+        // --- SỬA LỖI Ở ĐÂY ---
+        // Lấy ID thống nhất từ ChatService, không dùng IP nữa.
+        myId = ChatService.myId
         rv = view.findViewById(R.id.rvMessages)
 
         adapter = MessageAdapter(messages, myId)
@@ -49,6 +52,9 @@ class MessageListFragment : Fragment() {
 
     // Add tin nhắn vào đoạn chat
     fun addMessage(msg: Message) {
+        // --- LOGCAT KIỂM TRA TẠI ĐÂY ---
+        Log.d("MessageListFragment", "Hàm addMessage ĐÃ ĐƯỢC GỌI với tin nhắn: ${msg.text}")
+
         //  check user có đang ở gần đáy không (trước khi insert)
         val shouldAutoScroll = isNearBottom()
 

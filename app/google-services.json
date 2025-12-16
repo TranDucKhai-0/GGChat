@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1046422023294",
+    "firebase_url": "https://chatapp-socketdemo-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "chatapp-socketdemo",
+    "storage_bucket": "chatapp-socketdemo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046422023294:android:846755fce25774793e7c2f",
+        "android_client_info": {
+          "package_name": "com.example.ggchat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwtv8lvnkNnocTloY7gBAs51mBw3S_VNE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -11,12 +11,6 @@ import android.widget.EditText
 
 class InputFragment : Fragment() {
 
-    private var onSendMessage: ((String) -> Unit)? = null
-
-    fun setOnSendMessageListener(listener: (String) -> Unit) {
-        onSendMessage = listener
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,15 +30,15 @@ class InputFragment : Fragment() {
             (activity as? MainActivity)?.openOverlayFragment(ListFriendFragment())
         }
 
-        // gọi về RoomChatFragment để gửi mess đi
+        // --- GỬI TIN NHẮN TRỰC TIẾP TỪ ĐÂY ---
         btnSend.setOnClickListener {
             val text = edt.text.toString().trim()
             if (text.isNotEmpty()) {
-                val finalText = "$text.Gâu"
-                onSendMessage?.invoke(finalText)
+                // Gọi thẳng ChatService để gửi tin nhắn
+                ChatService.sendMessage(text)
+                // Xóa nội dung đã nhập
                 edt.setText("")
             }
         }
     }
 }
-
