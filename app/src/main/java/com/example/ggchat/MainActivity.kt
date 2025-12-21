@@ -2,15 +2,15 @@ package com.example.ggchat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 
 
-
 class MainActivity : AppCompatActivity() {
+
+    val chatThemeViewModel: ChatThemeViewModel by viewModels()
 
     //-----------------Tương tác của Action Bar-------------------
     private lateinit var actionBarFragment: ActionBarFragment
@@ -43,6 +43,12 @@ class MainActivity : AppCompatActivity() {
 
     fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_right,  // enter
+                R.anim.slide_out_left,  // exit
+                R.anim.slide_in_left,   // popEnter (khi back)
+                R.anim.slide_out_right  // popExit  (khi back)
+            )
             .replace(R.id.fragment_container, fragment)
             .addToBackStack(null)
             .commit()
@@ -51,8 +57,14 @@ class MainActivity : AppCompatActivity() {
     // gọi từ ActionBar khi bấm setting
     fun openOverlayFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_down,   // enter
+                R.anim.slide_out_down,  // exit
+                R.anim.slide_in_up,  // popEnter (khi back)
+                R.anim.slide_out_up  // popExit
+            )
             .add(R.id.fragment_overlay, fragment)
-            .addToBackStack(null)
+            .addToBackStack("overlay")
             .commit()
 
         // hiện vùng overlay lên

@@ -1,9 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="4dp">
 
+    <!-- Tên người gửi (nhỏ, nằm trên bubble, lệch theo avatar) -->
     <TextView
         android:id="@+id/tvSenderName"
         android:layout_width="wrap_content"
@@ -11,24 +14,27 @@
         android:layout_marginStart="42dp"
         android:layout_marginBottom="2dp"
         android:text="User Name"
-        android:textSize="8sp"
+        android:textSize="10sp"
         android:textColor="#666666" />
 
     <!-- Avatar + message -->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="start">
 
-        <!-- Avatar -->
-        <ImageView
+        <!-- Avatar tròn + viền -->
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgAvatar"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginEnd="6dp"
-            android:src=""
-            android:scaleType="centerCrop" />
+            android:src="@drawable/default_avatar"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/CircleImage"
+            app:strokeWidth="2dp"
+            app:strokeColor="@android:color/white" />
 
         <!-- Bubble tin nhắn -->
         <TextView

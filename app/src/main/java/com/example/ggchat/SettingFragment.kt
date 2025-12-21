@@ -6,43 +6,41 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.switchmaterial.SwitchMaterial
 import androidx.fragment.app.Fragment
-import android.widget.Button
 import android.widget.ImageButton
+import androidx.fragment.app.activityViewModels
+
 
 
 class SettingFragment : Fragment() {
+
+    private val chatThemeViewModel: ChatThemeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+
         val view = inflater.inflate(R.layout.fragment_setting, container, false)
 
         val switch1 = view.findViewById<SwitchMaterial>(R.id.themesChat)
-        val switch2 = view.findViewById<SwitchMaterial>(R.id.volume)
         val backButton = view.findViewById<ImageButton>(R.id.backButton)
 
+        // trạng thái ban đầu
+        switch1.isChecked = chatThemeViewModel.isDarkMode.value == true
+        switch1.text = if (switch1.isChecked) "Dark" else "Light"
 
-        // Cập nhật chữ lúc khởi tạo
-        switch1.text = if (switch1.isChecked) "Light" else "Dark"
-        switch2.text = if (switch2.isChecked) "ON" else "OFF"
-
-        // Lắng nghe sự kiện bật/tắt
         switch1.setOnCheckedChangeListener { _, isChecked ->
-            switch1.text = if (isChecked) "ON" else "OFF"
-        }
-        switch2.setOnCheckedChangeListener { _, isChecked ->
-            switch2.text = if (isChecked) "ON" else "OFF"
+            switch1.text = if (isChecked) "Dark" else "Light"
+            chatThemeViewModel.isDarkMode.value = isChecked
         }
 
-        // Nút quay lại (đóng Setting)
         backButton.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
+            parentFragmentManager.popBackStack()
             requireActivity().findViewById<View>(R.id.fragment_overlay).visibility = View.GONE
         }
-
 
         return view
     }
 }
+

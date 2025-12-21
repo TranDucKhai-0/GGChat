@@ -15,12 +15,12 @@
             android:id="@+id/fragment_message_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/light_blue"
+            android:background="@color/white"
             android:layout_weight="1"/>
 
         <!-- Fragment input -->
         <FrameLayout
-            android:background="@color/light_blue"
+            android:background="@color/light_sky"
             android:id="@+id/fragment_input"
             android:layout_width="match_parent"
             android:layout_height="60dp"/>

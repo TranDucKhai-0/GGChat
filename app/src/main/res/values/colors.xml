@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_blue">#AFCBFE</color>
     <color name="light_orange">#FFCC99</color>
+    <color name="light_sky">#E3F2FD</color>
 </resources>
