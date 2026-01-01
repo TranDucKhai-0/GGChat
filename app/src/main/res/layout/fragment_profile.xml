@@ -13,7 +13,6 @@
         android:gravity="center_horizontal"
         android:padding="24dp">
 
-        <!-- thay spacer 100dp bằng spacer co giãn -->
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -42,10 +41,10 @@
             android:gravity="center"
             android:singleLine="true"
             android:maxLength="20"
-            android:hint="Nhập tên mới..."
+            android:hint="Nhập tên..."
             android:inputType="textPersonName"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:includeFontPadding="false"
             android:paddingTop="10dp"
             android:paddingBottom="10dp" />
