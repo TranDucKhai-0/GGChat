@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,20 +8,29 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:paddingTop="30dp">     <!-- chỉnh vị trí dọc tùy ý -->
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <!-- thay paddingTop=30dp bằng spacer co giãn -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.12" />
 
         <!--Ô text Tham Gia-->
         <FrameLayout
             android:id="@+id/frame1"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_gravity="center">
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="20dp">
 
-            <!-- Ảnh nền -->
             <ImageView
                 android:id="@+id/ipBackground"
                 android:layout_width="match_parent"
@@ -29,30 +39,33 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/khung_xanh" />
 
-            <!-- Chữ đè lên -->
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textTaoPhong"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:text="Tham Gia"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                android:textSize="48sp"
-                android:text="Tham Gia"/>
+                android:includeFontPadding="false"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="18sp"
+                app:autoSizeMaxTextSize="48sp"
+                app:autoSizeStepGranularity="1sp" />
         </FrameLayout>
 
         <!--Hiện tên host đang hoạt động trong LAN-->
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRooms"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:clipToPadding="false" />
 
-            <LinearLayout
-                android:id="@+id/roomListContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:padding="12dp"/>
-        </ScrollView>
     </LinearLayout>
 </FrameLayout>

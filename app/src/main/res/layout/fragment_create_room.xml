@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,18 +8,28 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:paddingTop="100dp">
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <!-- thay paddingTop=100dp bằng spacer co giãn theo màn -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.25" />
 
         <!--Ô text Tạo Phòng-->
         <FrameLayout
             android:id="@+id/frame1"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_gravity="center">
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="30dp">
 
             <!-- Ảnh nền -->
             <ImageView
@@ -29,25 +40,34 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/khung_xanh" />
 
-            <!-- Chữ đè lên -->
-            <TextView
+            <!-- Chữ đè lên (tự co giãn để không bị phình so với khung) -->
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textTaoPhong"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:text="Tạo Phòng"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                android:textSize="48sp"
-                android:text="Tạo Phòng"/>
+                android:includeFontPadding="false"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="18sp"
+                app:autoSizeMaxTextSize="48sp"
+                app:autoSizeStepGranularity="1sp" />
         </FrameLayout>
 
         <!--Tạo tên phòng-->
         <FrameLayout
             android:id="@+id/inputNameRoom"
-            android:layout_width="250dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_gravity="center">
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginBottom="16dp">
 
             <!-- Ảnh nền -->
             <ImageView
@@ -70,34 +90,41 @@
                 android:singleLine="true"
                 android:maxLength="20"
                 android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:includeFontPadding="false"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
         </FrameLayout>
 
+        <!-- vùng chiếm phần còn lại để nút next nằm dưới -->
         <FrameLayout
             android:id="@+id/buttonNext"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <!-- Rỗng -->
-                <TextView
-                    android:id="@+id/textView2"
+                <Space
                     android:layout_width="match_parent"
-                    android:layout_height="320dp" />
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="8dp">
 
-                    <!-- Rỗng -->
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
                         android:layout_weight="1" />
 
                     <ImageButton
@@ -106,7 +133,8 @@
                         android:layout_height="70dp"
                         android:src="@drawable/next"
                         android:background="@android:color/transparent"
-                        android:scaleType="centerInside"/>
+                        android:scaleType="centerInside"
+                        android:contentDescription="Next" />
                 </LinearLayout>
 
             </LinearLayout>

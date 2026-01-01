@@ -11,6 +11,7 @@
         android:layout_height="48dp"
         android:gravity="center"
         android:text="Người đang trong phòng"
+        android:textColor="#F44336"
         android:textSize="20sp"
         android:textStyle="bold" />
 

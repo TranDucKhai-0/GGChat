@@ -1,79 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp"
     tools:context=".ProfileFragment">
 
-    <!-- rỗng -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="horizontal"></LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="24dp">
 
-    <!-- Avatar -->
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/avatarImage"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/default_avatar"
-        app:shapeAppearanceOverlay="@style/CircleImage"
-        app:strokeWidth="2dp"
-        app:strokeColor="@android:color/white" />
-
-
-    <!-- Tên người dùng -->
-    <EditText
-        android:id="@+id/editUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:singleLine="true"
-        android:maxLength="20"
-        android:hint="Nhập tên mới..."
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textSize="30dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:orientation="vertical">
-
-        <!-- Rỗng -->
-        <TextView
-            android:id="@+id/textView2"
+        <!-- thay spacer 100dp bằng spacer co giãn -->
+        <Space
             android:layout_width="match_parent"
-            android:layout_height="230dp" />
+            android:layout_height="0dp"
+            android:layout_weight="0.20" />
 
+        <!-- Avatar -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/avatarImage"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginBottom="12dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_avatar"
+            app:shapeAppearanceOverlay="@style/CircleImage"
+            app:strokeWidth="2dp"
+            app:strokeColor="@android:color/white" />
+
+        <!-- Tên người dùng -->
+        <EditText
+            android:id="@+id/editUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:maxLength="20"
+            android:hint="Nhập tên mới..."
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:includeFontPadding="false"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
+
+        <!-- vùng chiếm phần còn lại để nút next nằm dưới phải -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <!-- Rỗng -->
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <!-- giữ id cũ để khỏi đụng code -->
+            <Space
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <ImageButton
-                android:id="@+id/nextToJoinAndCreate"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/next"
-                android:background="@android:color/transparent"
-                android:scaleType="centerInside"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp">
+
+                <Space
+                    android:id="@+id/textView3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/nextToJoinAndCreate"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/next"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerInside"
+                    android:contentDescription="Next" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
 
-
-</LinearLayout>
+</FrameLayout>

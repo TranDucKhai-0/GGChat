@@ -10,7 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
 
         <!-- Nút hiện danh sách người có trong Room -->
         <ImageButton
@@ -37,20 +41,23 @@
             android:src="@android:drawable/ic_menu_crop"
             android:background="@android:color/transparent"/>
 
-        <!-- Ô nhập tin nhắn -->
+        <!-- Ô nhập tin nhắn (co giãn theo chiều ngang) -->
         <EditText
             android:id="@+id/edtMessage"
-            android:layout_width="190dp"
-            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:minHeight="40dp"
             android:padding="10dp"
-            android:hint="Nhập tin nhắn…"
-            android:background="@drawable/bg_edittext_round"
-            android:layout_weight="1"
+            android:hint="Tin nhắn..."
+            android:textColor="@android:color/black"
             android:textSize="16sp"
             android:maxLines="4"
-            android:gravity="center_vertical" />
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_edittext_round"
+            android:includeFontPadding="false" />
 
         <!-- Nút gửi tin nhắn -->
         <ImageButton
@@ -58,7 +65,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@android:drawable/ic_menu_send"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            android:contentDescription="Send" />
 
     </LinearLayout>
 </FrameLayout>

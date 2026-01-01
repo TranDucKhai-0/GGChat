@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingVertical="8dp"
+    android:padding="12dp"
     android:background="@drawable/linear_setting_border"
     android:gravity="center_vertical"
     tools:context=".SettingFragment">
@@ -15,66 +15,57 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="GGChat"
-        android:layout_weight="1"
         android:textColor="@android:color/holo_orange_dark"
         android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:paddingBottom="8dp" />
 
+    <!-- 2 công tắc (giữ id themesChat + volume như cũ) -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="1">
+        android:gravity="center_vertical"
+        android:paddingVertical="6dp">
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/themesChat"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text=""
             android:checked="true"
             app:useMaterialThemeColors="true" />
-
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/volume"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text=""
             android:checked="true"
             app:useMaterialThemeColors="true" />
-
     </LinearLayout>
 
+    <!-- Back button -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="8dp">
 
         <ImageButton
             android:id="@+id/backButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.70"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/out" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="" />
+            android:scaleType="centerInside"
+            android:src="@drawable/out"
+            android:contentDescription="Back" />
     </LinearLayout>
 
 </LinearLayout>
