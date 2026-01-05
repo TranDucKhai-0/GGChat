@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
 
     val chatThemeViewModel: ChatThemeViewModel by viewModels()
 
-    //-----------------Tương tác của Action Bar-------------------
+    //----------------- Action Bar interactions -------------------
     private lateinit var actionBarFragment: ActionBarFragment
     private lateinit var profileFragment: ProfileFragment
 
@@ -21,22 +21,22 @@ class MainActivity : AppCompatActivity() {
         //View
         setContentView(R.layout.activity_main)
 
-        // Nạp ActionBarFragment
+        // Load ActionBarFragment.
         actionBarFragment = ActionBarFragment()
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_action_bar, actionBarFragment)
             .commit()
 
-        // --- Hiển thị ProfileFragment mặc định ---
+        // --- Show ProfileFragment by default ---
         if (savedInstanceState == null) {
             profileFragment = ProfileFragment()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, profileFragment)
-                .commit() // KHÔNG addToBackStack
+                .commit() // Do NOT add to the back stack.
         }
 
-        // --- Lấy IP LAN của máy-----
+        // --- Get the device's LAN IP address ---
         val ip = getLocalIpAddress()
         UserData.saveUserIP(this, ip)
     }
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    // gọi từ ActionBar khi bấm setting
+    // Called from the action bar when Settings is clicked.
     fun openOverlayFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .setCustomAnimations(
@@ -67,11 +67,11 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack("overlay")
             .commit()
 
-        // hiện vùng overlay lên
+        // Show the overlay container.
         findViewById<FrameLayout>(R.id.fragment_overlay).visibility = View.VISIBLE
     }
 
-    // Dùng khi muốn đổi tiêu đề action bar sang chat mode
+    // Used to switch the action bar into chat mode (title/back actions).
     fun showChatBar(chatName: String) {
         actionBarFragment.showChatBar(chatName)
     }
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         actionBarFragment.showDefault()
     }
 
-    // Hàm lấy IP LAN
+    // Helper to get the LAN IP address.
     fun getLocalIpAddress(): String {
         try {
             val interfaces = java.net.NetworkInterface.getNetworkInterfaces()

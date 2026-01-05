@@ -39,15 +39,15 @@ class ProfileFragment : Fragment() {
         editUsername = view.findViewById(R.id.editUsername)
         val buttonNext = view.findViewById<ImageButton>(R.id.nextToJoinAndCreate)
 
-        // 🔹 Load avatar khi mở
+        // Load the avatar when opening the screen.
         avatarBitmap = UserData.getAvatar(requireContext())
         avatarBitmap?.let { avatarImage.setImageBitmap(it) }
 
-        // Load Username khi mở
+        // Load the username when opening the screen.
         val savedName = UserData.getUserName(requireContext())
         editUsername.setText(savedName)
 
-        // 🔹 Theo dõi nhập tên (tự lưu)
+        // Watch name input changes (auto-save).
         editUsername.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 val newName = s.toString().trim()
@@ -61,7 +61,7 @@ class ProfileFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        // 🔹 Chọn ảnh từ thư viện
+        // Pick an image from the gallery.
         pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
                 val inputStream = requireContext().contentResolver.openInputStream(it)
@@ -75,7 +75,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        // Chụp ảnh mới
+        // Take a new photo.
         takePictureLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap: Bitmap? ->
             bitmap?.let {
                 avatarBitmap = it
@@ -84,7 +84,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        // Nhấn vào ảnh -> chọn nguồn ảnh
+        // Tap the avatar image to choose an image source.
         avatarImage.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Đổi ảnh đại diện")
@@ -96,7 +96,7 @@ class ProfileFragment : Fragment() {
                 }.show()
         }
 
-        // gọi về Activity chính để chuyển fragment
+        // Call back to the main activity to switch fragments.
         buttonNext.setOnClickListener {
             (activity as? MainActivity)?.replaceFragment(JoinAndCreateFragment())
         }

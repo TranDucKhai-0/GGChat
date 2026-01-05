@@ -30,13 +30,13 @@ class InputFragment : Fragment() {
         val edt = view.findViewById<EditText>(R.id.edtMessage)
         val btnSend = view.findViewById<ImageButton>(R.id.buttonSendMessage)
 
-        // hiện danh sách người có trong phòng
+        // Show the list of members currently in the room.
         listFriend.setOnClickListener {
-            // Gọi sang MainActivity để thay fragment (overlay)
+            // Call MainActivity to replace the fragment inside the overlay container.
             (activity as? MainActivity)?.openOverlayFragment(ListFriendFragment())
         }
 
-        // gọi về RoomChatFragment để gửi mess đi
+        // Call back to RoomChatFragment to send the message.
         btnSend.setOnClickListener {
             val text = edt.text.toString().trim()
             if (text.isNotEmpty()) {

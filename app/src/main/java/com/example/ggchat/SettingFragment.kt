@@ -26,7 +26,7 @@ class SettingFragment : Fragment() {
         val switch1 = view.findViewById<SwitchMaterial>(R.id.themesChat)
         val backButton = view.findViewById<ImageButton>(R.id.backButton)
 
-        // trạng thái ban đầu
+        // Initial state.
         switch1.isChecked = chatThemeViewModel.isDarkMode.value == true
         switch1.text = if (switch1.isChecked) "Dark" else "Light"
 

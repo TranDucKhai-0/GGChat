@@ -4,60 +4,204 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import androidx.appcompat.app.AlertDialog
+
 
 class JoinRoomFragment : Fragment() {
 
-    private lateinit var containerLayout: LinearLayout
-    private val knownRooms = mutableSetOf<String>() // lưu danh sách phòng đã hiển thị
+    private var waitingDialog: AlertDialog? = null
+    private var isRequesting = false
 
+    private lateinit var rvRooms: RecyclerView
+    private lateinit var adapter: RoomsAdapter
+
+    // key = "ip:port"
+    private val rooms = linkedMapOf<String, RoomInfo>()
+
+    private var cleanupJob: Job? = null
+    private val ROOM_TTL_MS = 3_000L
+    private val CLEANUP_INTERVAL_MS = 1_000L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view = inflater.inflate(R.layout.fragment_join_room, container, false)
-        containerLayout = view.findViewById(R.id.roomListContainer)
 
-        // Bắt đầu lắng nghe các phòng broadcast trong LAN
+        rvRooms = view.findViewById(R.id.rvRooms)
+        rvRooms.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
+
+        adapter = RoomsAdapter { room -> requestJoin(room) }
+        rvRooms.adapter = adapter
+        rvRooms.itemAnimator = RoomItemAnimator()
+
         RoomListener.startListening(object : RoomListener.OnRoomFoundListener {
             override fun onRoomFound(name: String, ip: String, port: Int) {
-                requireActivity().runOnUiThread {
-                    addRoomView(name, ip, port)
+                // If the fragment is detached but still receives a broadcast, ignore it to avoid a crash.
+                val act = activity ?: return
+                act.runOnUiThread {
+                    if (!isAdded) return@runOnUiThread
+                    upsertRoom(name, ip, port)
                 }
             }
         })
 
+        startCleanupLoop()
         return view
     }
 
-
-    // Hàm tạo khung phòng tự động
-    private fun addRoomView(name: String, ip: String, port: Int) {
+    private fun upsertRoom(name: String, ip: String, port: Int) {
         val key = "$ip:$port"
-        if (knownRooms.contains(key)) return // phòng này đã hiển thị rồi
+        val now = System.currentTimeMillis()
 
-        knownRooms.add(key)
-        val roomView = layoutInflater.inflate(R.layout.item_room_frame, containerLayout, false)
-
-        val textView = roomView.findViewById<TextView>(R.id.ipText1)
-        textView.text = "$name"
-
-        val frame = roomView.findViewById<FrameLayout>(R.id.buttonJoinRoom)
-        frame.setOnClickListener {
-            // Toast.makeText(requireContext(), "Đang kết nối tới $name ($ip:$port)...", Toast.LENGTH_SHORT).show()
-            // mở RoomChat và truyền tên phòng để đổi ActionBar
-            // (activity as? MainActivity)?.replaceFragment(RoomChatFragment.newInstance(name))
-
-            // TODO: Gửi request join tới host (TCP/UDP)
+        val existing = rooms[key]
+        if (existing != null) {
+            // Update lastSeen (and name if it changed).
+            rooms[key] = existing.copy(
+                roomName = name,
+                lastSeenMs = now
+            )
+        } else {
+            // Add a new entry.
+            rooms[key] = RoomInfo(
+                roomName = name,
+                hostIp = ip,
+                port = port,
+                lastSeenMs = now
+            )
         }
 
-        containerLayout.addView(roomView)
+        submitRooms()
+    }
+
+    private fun startCleanupLoop() {
+        cleanupJob?.cancel()
+        cleanupJob = viewLifecycleOwner.lifecycleScope.launch {
+            while (isActive) {
+                delay(CLEANUP_INTERVAL_MS)
+                cleanupExpiredRooms()
+            }
+        }
+    }
+
+    private fun cleanupExpiredRooms() {
+        val now = System.currentTimeMillis()
+        val expiredKeys = rooms
+            .filterValues { now - it.lastSeenMs > ROOM_TTL_MS }
+            .keys
+            .toList()
+
+        if (expiredKeys.isEmpty()) return
+
+        expiredKeys.forEach { rooms.remove(it) }
+        submitRooms()
+    }
+
+    private fun submitRooms() {
+        // Choose whatever sort order you want (e.g., newly seen first).
+        val list = rooms.values
+            .sortedByDescending { it.lastSeenMs }
+
+        adapter.submitList(list)
+    }
+
+    override fun onDestroyView() {
+        cleanupJob?.cancel()
+        cleanupJob = null
+        RoomListener.stopListening()
+        hideWaitingDialog()
+        super.onDestroyView()
+    }
+
+    private fun requestJoin(room: RoomInfo) {
+        if (isRequesting) return
+        isRequesting = true
+
+        showWaitingDialog(room.roomName) {
+            hideWaitingDialog()
+            isRequesting = false
+            android.widget.Toast.makeText(requireContext(), "Đã hủy yêu cầu", android.widget.Toast.LENGTH_SHORT).show()
+        }
+
+        val myName = UserData.getUserName(requireContext()).ifBlank {
+            UserData.getUserIP(requireContext()) // Fallback if the room has no name yet.
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            val result = JoinRequester.requestJoin(
+                hostIp = room.hostIp,
+                hostPort = room.port,
+                roomName = room.roomName,
+                clientName = myName
+            )
+
+            if (!isAdded) return@launch   // Avoid crashes if the fragment is already gone.
+
+            hideWaitingDialog()
+            isRequesting = false
+
+            when (result) {
+                is JoinResult.Accepted -> {
+                    // 1) Save the server endpoint for faster reconnect next time.
+                    ServerEndpointStore.save(
+                        context = requireContext(),
+                        hostIp = room.hostIp,
+                        roomPort = room.port,
+                        tcpPort = result.tcpPort,
+                        roomName = room.roomName
+                    )
+
+                    (activity as? MainActivity)?.replaceFragment(
+                        RoomChatFragment.newInstance(
+                            roomName = room.roomName,
+                            isHost = false,
+                            hostIp = room.hostIp,
+                            hostPort = room.port
+                        )
+                    )
+                }
+                is JoinResult.Denied -> {
+                    android.widget.Toast.makeText(requireContext(), "Bị từ chối", android.widget.Toast.LENGTH_SHORT).show()
+                }
+                is JoinResult.Timeout -> {
+                    android.widget.Toast.makeText(requireContext(), "Host không phản hồi", android.widget.Toast.LENGTH_SHORT).show()
+                }
+                is JoinResult.Error -> {
+                    android.widget.Toast.makeText(requireContext(), "Lỗi: ${result.message}", android.widget.Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+
+    private fun showWaitingDialog(roomName: String, onCancel: () -> Unit) {
+        if (!isAdded) return
+        waitingDialog?.dismiss()
+
+        waitingDialog = AlertDialog.Builder(requireContext())
+            .setTitle("Đang chờ xác nhận")
+            .setMessage("Đang gửi yêu cầu tham gia \"$roomName\"...\nVui lòng chờ host chấp nhận.")
+            .setCancelable(false)
+            .setNegativeButton("Hủy") { _, _ ->
+                onCancel()
+            }
+            .create()
+
+        waitingDialog?.show()
+    }
+
+    private fun hideWaitingDialog() {
+        waitingDialog?.dismiss()
+        waitingDialog = null
     }
 
 }
+
+

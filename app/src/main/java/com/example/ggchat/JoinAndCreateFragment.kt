@@ -15,30 +15,30 @@ class JoinAndCreateFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Nạp layout cho fragment
+        // Inflate the fragment layout.
         val view = inflater.inflate(R.layout.fragment_join_and_create, container, false)
 
-        // Tìm object trong layout
+        // Find views in the layout.
         val textIPLAN = view.findViewById<TextView>(R.id.textIPLAN)
         // Create Room
         val createRoomButton = view.findViewById<FrameLayout>(R.id.buttonCreateRoom)
         // Join Room
         val joinRoomButton = view.findViewById<FrameLayout>(R.id.buttonJoinRoom)
 
-        // Lấy IP trong UserData
+        // Load the IP from UserData.
         val currentIP = UserData.getUserIP(requireContext())
-        // Đổi địa chỉ IP hiển thị
+        // Update the displayed IP address.
         textIPLAN.text = "IP: $currentIP"
 
-        // tạo biến chứa Main Activity
+        // Get a reference to MainActivity.
         val mainActivity = activity as? MainActivity
 
-        // Chuyển fragment khi bấm nút tạo phòng
+        // Navigate when the Create Room button is clicked.
         createRoomButton.setOnClickListener {
             mainActivity?.replaceFragment(CreateRoomFragment())
         }
 
-        // Chuyển fragment khi bấm nút tham gia phòng
+        // Navigate when the Join Room button is clicked.
         joinRoomButton.setOnClickListener {
             mainActivity?.replaceFragment(JoinRoomFragment())
         }

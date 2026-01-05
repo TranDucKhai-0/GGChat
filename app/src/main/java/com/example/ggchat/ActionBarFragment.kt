@@ -23,31 +23,31 @@ class ActionBarFragment : Fragment() {
         backButton = view.findViewById(R.id.backButton)
         settingButton = view.findViewById(R.id.settingButton)
 
-        // Mặc định: hiện tiêu đề
+        // Default: show the title.
         showDefault()
 
-        // xử lý sự kiện click back
+        // Handle the Back button click.
         backButton.setOnClickListener {
             (activity as? MainActivity)?.onBackPressedDispatcher?.onBackPressed()
         }
 
-        // xử lý sự kiện click setting (mở fragment Setting)
+        // Handle the Settings button click (open the settings fragment).
         settingButton.setOnClickListener {
-            // Gọi sang MainActivity để thay fragment
+            // Call MainActivity to replace the current fragment.
             (activity as? MainActivity)?.openOverlayFragment(SettingFragment())
         }
 
         return view
     }
 
-    /** Đặt Action Bar về trạng thái mặc định */
+    /** Reset the action bar to its default state. */
     fun showDefault() {
         tvTitle.text = "GGChat"
         backButton.visibility = View.VISIBLE
         settingButton.visibility = View.VISIBLE
     }
 
-    /** Đổi tên của đoạn chat */
+    /** Update the action bar title for the current chat. */
     fun showChatBar(chatName: String) {
         tvTitle.text = chatName
     }

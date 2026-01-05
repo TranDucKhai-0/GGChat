@@ -15,7 +15,7 @@ class MessageListFragment : Fragment() {
     private val messages = mutableListOf<Message>()
 
     private lateinit var lm: LinearLayoutManager
-    private var pendingNewCount = 0 // nếu muốn badge tin mới
+    private var pendingNewCount = 0 // If you want a "new message" badge.
 
 
     private lateinit var myId: String
@@ -41,22 +41,22 @@ class MessageListFragment : Fragment() {
         }
         rv.layoutManager = lm
 
-        rv.itemAnimator = null // đỡ giật khi chat nhanh
+        rv.itemAnimator = null // Reduce jank when chatting quickly.
         rv.setHasFixedSize(true)
     }
 
 
 
-    // Add tin nhắn vào đoạn chat
+    // Add the message to the chat list.
     fun addMessage(msg: Message) {
-        //  check user có đang ở gần đáy không (trước khi insert)
+        //  Check whether the user is near the bottom (before inserting).
         val shouldAutoScroll = isNearBottom()
 
         //  add + notify
         messages.add(msg)
         adapter.notifyItemInserted(messages.size - 1)
 
-        //  quyết định scroll
+        //  Decide whether to auto-scroll.
         if (shouldAutoScroll) {
             rv.scrollToPosition(messages.size - 1)
             pendingNewCount = 0
