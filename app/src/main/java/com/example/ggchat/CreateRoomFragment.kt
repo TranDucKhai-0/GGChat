@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import java.net.ServerSocket
+import com.example.ggchat.network.RoomBroadcaster
+
 
 class CreateRoomFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,14 +52,27 @@ class CreateRoomFragment : Fragment() {
             // lưu tên phòng vào UserData
             UserData.saveMyRoomName(requireContext(), roomName)
 
+            // lấy PORT chưa bị chiếm
             val roomPort = getAvailablePort()
             UserData.saveMyRoomPort(requireContext(), roomPort)
 
-            // truyền roomName và gọi RoomChat
-            (activity as? MainActivity)?.replaceFragment(RoomChatFragment.newInstance(roomName))
+            // Lấy IP từ Userdata
+            val ip = UserData.getUserIP(requireContext()).ifEmpty {
+                (activity as? MainActivity)?.getLocalIpAddress() ?: "0.0.0.0"
+            }
+
+            // Broadcast JSON lên UDP 9999
+            RoomBroadcaster.broadcastOnce(roomName, ip, roomPort)
+            // vào room chat
+            (activity as? MainActivity)?.replaceFragment(
+                RoomChatFragment.newInstance(
+                    roomName = roomName,
+                    isHost = true,
+                    hostIp = ip,
+                    hostPort = roomPort
+                )
+            )
         }
-
-
         return view
     }
 
@@ -68,4 +83,5 @@ class CreateRoomFragment : Fragment() {
         socket.close()
         return port
     }
+
 }
